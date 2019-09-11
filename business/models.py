@@ -4,7 +4,6 @@ from django.db import models
 
 
 class Office(models.Model):
-    source_id = models.IntegerField()
     city = models.CharField(max_length=50)
     country = models.CharField(max_length=50)
     address = models.CharField(max_length=100)
@@ -18,7 +17,6 @@ class Office(models.Model):
 
 # modeling Departments as a DAG, where vertex is Department and edges are the superdepartment relation
 class Department(models.Model):
-    source_id = models.IntegerField()
     name = models.CharField(max_length=50)
 
     def __str__(self):
@@ -45,7 +43,6 @@ class DepartmentRelation(models.Model):
 class Employee(models.Model):
     first = models.CharField(max_length=25)
     last = models.CharField(max_length=25)
-    source_id = models.IntegerField()
     department = models.ForeignKey(Department,on_delete=models.CASCADE, null=True, default=None, blank=True)
     office = models.ForeignKey(Office,on_delete=models.CASCADE, null=True, default=None, blank=True)
 

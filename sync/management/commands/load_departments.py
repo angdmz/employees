@@ -19,7 +19,7 @@ class Command(BaseCommand):
                 departments = json.load(f)
                 loaded = {}
                 for d in departments:
-                    department_object, updated = self.department_manager.update_or_create(source_id=d['id'],
+                    department_object, updated = self.department_manager.update_or_create(pk=d['id'],
                                                                                  defaults={
                                                                                     'name' : d['name']
                                                                                  })

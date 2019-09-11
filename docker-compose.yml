@@ -1,0 +1,12 @@
+version: '3.1'
+services:
+  db:
+    image: postgres
+    restart: always
+    container_name: employees-postrgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: employees
+      POSTGRES_USER: admin

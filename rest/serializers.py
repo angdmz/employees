@@ -1,4 +1,67 @@
-class EmpleadoSerializers(serializers.ModelSerializer):
+from rest_framework import serializers
+
+from business.models import Office, Employee, ManagerRelation
+
+
+class OfficeSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Office
+        fields = ('id',
+                  'city',
+                  'country',
+                  'address',)
+
+
+class EmployeeSerializer(serializers.ModelSerializer):
+    first = serializers.SerializerMethodField()
+    id = serializers.SerializerMethodField()
+    last = serializers.SerializerMethodField()
+    department = serializers.SerializerMethodField()
+    office = serializers.SerializerMethodField()
+
+    def get_first(self, obj):
+        employee = obj.employee
+        codigo = employee.first if employee is not None else None
+        return codigo
+
+    def get_id(self, obj):
+        employee = obj.employee
+        codigo = employee.id if employee is not None else None
+        return codigo
+
+    def get_last(self, obj):
+        employee = obj.employee
+        codigo = employee.last if employee is not None else None
+        return codigo
+
+    def get_department(self, obj):
+        employee = obj.employee
+        codigo = employee.department_id if employee is not None else None
+        return codigo
+
+    def get_office(self, obj):
+        employee = obj.employee
+        codigo = employee.office_id if employee is not None else None
+        return codigo
+
+    def get_manager(self, obj):
+        manager = obj.manager
+        codigo = manager.id if manager is not None else None
+        return codigo
+
+    class Meta:
+        model = ManagerRelation
+        fields = (
+            'id',
+            'first',
+            'last',
+            'department',
+            'office',
+            'manager'
+        )
+
+
+class EmployeeHelperSerializer(serializers.ModelSerializer):
     asignacion = serializers.SerializerMethodField()
     asignacion_nombre = serializers.SerializerMethodField()
     cod_convenio = serializers.SerializerMethodField()
@@ -30,7 +93,7 @@ class EmpleadoSerializers(serializers.ModelSerializer):
         return descripcion
 
     class Meta:
-        model = Empleado
+        model = Office
         fields = ('cuil',
                   'sexo',
                   'apellido',

@@ -18,13 +18,15 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from rest.views import EmployeesViewSet
+from rest.views import OfficeViewSet, EmployeeViewSet
 
 routerv1 = routers.DefaultRouter()
-routerv1.register(r'employees', EmployeesViewSet)
+routerv1.register(r'offices', OfficeViewSet)
+routerv1.register(r'employees', EmployeeViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url(r'^v1', include(routerv1.urls)),
     url(r'^api/v1/', include(routerv1.urls)),
     url(r'^api-docs/', include('rest_framework.urls'))
 ]

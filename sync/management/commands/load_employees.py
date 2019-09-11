@@ -22,7 +22,7 @@ class Command(BaseCommand):
             loaded = {}
             for e in employees:
                 employee_object, updated = self.employee_manager.update_or_create(
-                    source_id=e['id'],
+                    pk=e['id'],
                     defaults={
                         'first': e['first'],
                         'last': e['last'],
