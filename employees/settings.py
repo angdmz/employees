@@ -134,3 +134,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'
 }
 
+import django_integrator
+
+django_integrator.add_application('django_memdb')
