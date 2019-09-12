@@ -44,6 +44,7 @@ class Employee(models.Model):
     first = models.CharField(max_length=25)
     last = models.CharField(max_length=25)
     department = models.ForeignKey(Department,on_delete=models.CASCADE, null=True, default=None, blank=True)
+    manager = models.ForeignKey('Employee', on_delete=models.CASCADE, null=True, default=None, blank=True)
     office = models.ForeignKey(Office,on_delete=models.CASCADE, null=True, default=None, blank=True)
 
     def __str__(self):
@@ -51,15 +52,3 @@ class Employee(models.Model):
 
     class Meta:
         db_table = "employees"
-
-
-# edges of the graph
-class ManagerRelation(models.Model):
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='employee')
-    manager = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='manager')
-
-    def __str__(self):
-        return "{} is manager to {}".format(str(self.manager), str(self.employee))
-
-    class Meta:
-        db_table = "employees_relationship"

@@ -2,12 +2,11 @@ from django.core.management import BaseCommand
 from django.conf import settings
 import json, requests
 
-from business.models import Employee, ManagerRelation, Office, Department
+from business.models import Employee,  Office, Department
 
 
 class Command(BaseCommand):
     employee_manager = Employee.objects
-    manager_relation_manager = ManagerRelation.objects
     office_manager = Office.objects
     department_manager = Department.objects
 
@@ -34,10 +33,11 @@ class Command(BaseCommand):
 
             for k, v in loaded.items():
                 if v['managerid'] is not None:
-                    relation, r_inserted = self.manager_relation_manager\
-                        .update_or_create(employee=v['employee'], defaults={'manager':loaded[v['managerid']]['employee'],})
+                    v['employee'].manager_id = v['managerid']
+                    v['employee'].save()
                     self.stdout.write(
-                        "Department relation loaded: {}, was inserted: {}".format(str(relation), str(r_inserted)))
+                        "Employee brute manager loaded: {}, was inserted: {}".format(str(v['employee']), str(v['managerid'])))
+
         else:
             self.stdout.write("ERROR, request with response status code not 200, res: {}".format(str(res)))
             raise NotADirectoryError(options['json_file'] + "is not a directory")

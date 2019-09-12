@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from business.models import Office, Employee, ManagerRelation
+from business.models import Office, Employee
 
 
 class OfficeSerializers(serializers.ModelSerializer):
@@ -13,44 +13,8 @@ class OfficeSerializers(serializers.ModelSerializer):
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
-    first = serializers.SerializerMethodField()
-    id = serializers.SerializerMethodField()
-    last = serializers.SerializerMethodField()
-    department = serializers.SerializerMethodField()
-    office = serializers.SerializerMethodField()
-
-    def get_first(self, obj):
-        employee = obj.employee
-        codigo = employee.first if employee is not None else None
-        return codigo
-
-    def get_id(self, obj):
-        employee = obj.employee
-        codigo = employee.id if employee is not None else None
-        return codigo
-
-    def get_last(self, obj):
-        employee = obj.employee
-        codigo = employee.last if employee is not None else None
-        return codigo
-
-    def get_department(self, obj):
-        employee = obj.employee
-        codigo = employee.department_id if employee is not None else None
-        return codigo
-
-    def get_office(self, obj):
-        employee = obj.employee
-        codigo = employee.office_id if employee is not None else None
-        return codigo
-
-    def get_manager(self, obj):
-        manager = obj.manager
-        codigo = manager.id if manager is not None else None
-        return codigo
-
     class Meta:
-        model = ManagerRelation
+        model = Employee
         fields = (
             'id',
             'first',
