@@ -136,3 +136,9 @@ REST_FRAMEWORK = {
 
 PAGINATION_DEFAULT_LIMIT = 10
 PAGINATION_DEFAULT_OFFSET = 0
+
+
+try:
+    from employees.local_settings import *
+except ImportError as e:
+    pass
