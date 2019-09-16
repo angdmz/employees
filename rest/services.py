@@ -4,6 +4,19 @@ class NotValidExpandableException(Exception):
 
 class ModelExpander:
 
+    def solve_expandables(self, elements, expand_args):
+        if expand_args:
+            result = []
+            for q in elements:
+                d = q.__dict__.copy()
+                del d['_state']
+                for expandable in expand_args:
+                    exp_list = expandable.split('.')
+                    self.expand(q, exp_list, d)
+                result.append(d)
+            return result
+        return elements
+
     def expand(self, model, expansion_list, d):
         if len(expansion_list) == 0:
             return

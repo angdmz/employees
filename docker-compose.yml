@@ -5,7 +5,7 @@ services:
     restart: always
     container_name: employees-postrgres
     ports:
-      - "5433:5432"
+      - "5434:5432"
     environment:
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: employees

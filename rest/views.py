@@ -28,27 +28,14 @@ class EmployeeViewSet(viewsets.ReadOnlyModelViewSet):
         try:
             queryset = self.filter_queryset(self.queryset)
             page = self.paginate_queryset(queryset)
-
-            response = []
-            if request.query_params.get('expand'):
-                expand = request.query_params.get('expand')
-                if not isinstance(request.query_params.get('expand'), list) :
-                    expand = [request.query_params.get('expand')]
-
-                for expandable in expand:
-                    exp_list = expandable.split('.')
-                    for q in page:
-                        d = q.__dict__.copy()
-                        del d['_state']
-                        self.expander.expand(q, exp_list, d)
-                        response.append(d)
-
+            expand_args = request.query_params.getlist('expand')
+            response = self.expander.solve_expandables(page if page is not None else queryset, expand_args)
 
             if page is not None:
                 serializer = self.get_serializer(page, many=True)
                 return self.get_paginated_response(response)
 
-            serializer = self.get_serializer(queryset, many=True)
+            serializer = self.get_serializer(response, many=True)
             return Response(serializer.data)
         except Exception as e:
             return Response({"Status": "failed", "Messages": [str(e)]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
