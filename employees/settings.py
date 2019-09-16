@@ -134,3 +134,5 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'
 }
 
+PAGINATION_DEFAULT_LIMIT = 10
+PAGINATION_DEFAULT_OFFSET = 0
