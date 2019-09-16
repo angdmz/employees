@@ -3,13 +3,13 @@ import os
 from django.core.management import BaseCommand
 import json
 
-from business.models import Department, DepartmentRelation, Office
+from business.models import Department, Office
 
 
 class Command(BaseCommand):
     department_manager = Department.objects
-    departmentrelation_manager = DepartmentRelation.objects
     office_manager = Office.objects
+
     def add_arguments(self, parser):
         parser.add_argument('json_file', help='Departments json file path', type=str)
 
@@ -28,12 +28,11 @@ class Command(BaseCommand):
 
                 for k, v in loaded.items():
                     if v['superdepartmentid'] is not None:
-                        relation, r_updated = self.departmentrelation_manager.update_or_create(department=v['department'],
-                                                                         defaults={
-                                                                             'superdepartment':loaded[v['superdepartmentid']]['department'],
-                                                                         })
+                        v['department'].superdepartment_id = v['superdepartmentid']
+                        v['department'].save()
                         self.stdout.write(
-                            "Department relation loaded: {}, was inserted: {}".format(str(relation), str(r_updated)))
+                            "Superdepartment loaded: {}, was inserted: {}".format(str(v['department']),
+                                                                                         str(v['superdepartmentid'])))
         else:
             self.stdout.write("ERROR, not a valid parameter")
             raise NotADirectoryError(options['json_file'] + "is not a directory")
