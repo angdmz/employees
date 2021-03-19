@@ -6,7 +6,7 @@ Django==2.1.11
 django-bootstrap3==11.0.0
 django-jquery==3.1.0
 django-registration==3.0
-djangorestframework==3.9.1
+djangorestframework==3.11.2
 django-filter==2.2.0
 markdown==3.1.1
 idna==2.7
